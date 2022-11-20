@@ -7,25 +7,25 @@ else
 endif
 
 up: # create and start containers
-	docker-compose -f ${compose_file_path} up
+	docker-compose --env-file .env -f ${compose_file_path} up 
 
 build: # build containers
-	docker-compose -f ${compose_file_path} build 
+	docker-compose --env-file .env -f ${compose_file_path} build 
 
 stop: # stop containers, but not destroy
-	docker-compose -f ${compose_file_path} stop
+	docker-compose --env-file .env -f ${compose_file_path} stop
 
 down: # stop and destroy containers
-	docker-compose -f ${compose_file_path} down
+	docker-compose --env-file .env -f ${compose_file_path} down
 
 down-volume: #  WARNING: stop and destroy containers with volumes
-	docker-compose -f ${compose_file_path} down -v
+	docker-compose --env-file .env -f ${compose_file_path} down -v
 
 ps: # show started containers and their status
-	docker-compose -f ${compose_file_path} ps
+	docker-compose --env-file .env -f ${compose_file_path} ps
 
 connect_nest:
-	docker-compose -f ${compose_file_path} exec nest bash
+	docker-compose --env-file .env -f ${compose_file_path} exec nest bash
 
 connect_db:
-	docker-compose -f ${compose_file_path} exec mysql bash
+	docker-compose --env-file .env -f ${compose_file_path} exec mysql bash
