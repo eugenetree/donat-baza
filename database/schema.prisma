@@ -1,0 +1,39 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String?    @unique
+  username  String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  platforms Platform[]
+}
+
+enum PlatformType {
+  TWITCH
+  YOUTUBE
+}
+
+model Platform {
+  id               Int          @id @default(autoincrement())
+  type             PlatformType
+  user             User         @relation(fields: [userId], references: [id])
+  userId           Int
+  userIdOnPlatform Int          @unique
+  accessToken      String
+  refreshToken     String
+}
