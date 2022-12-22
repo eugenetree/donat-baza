@@ -1,9 +1,7 @@
-import { OauthProviderEntity } from "src/oauth-providers/oauth-provider.entity";
+import { BaseEntity } from "src/common/base.entity";
 
-export class UserEntity {
-  id: number;
+export class UserEntity extends BaseEntity {
   email: string | null;
   username: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  token: string;
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import axios from 'axios';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
 import { SettingsService } from 'src/settings/settings.types';
@@ -51,8 +50,9 @@ export class TwitchAuthService {
   
   public authenticate = async (code: string): Promise<UserEntity> => {
     const { accessToken, refreshToken, profile } = await this.getDataByOauthCode(code);
-
+    console.log(profile);
     const user = await this.usersService.findOne({ oauthProviders: { profileId: profile.id } });
+    console.log(user);
     if (user) return user;
 
     return this.usersService.createWithOauth({

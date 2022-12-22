@@ -3,17 +3,23 @@ import {
   Catch,
   ArgumentsHost,
 } from '@nestjs/common';
+import { LoggerService } from 'src/logger/logger.service';
 import { SettingsService } from 'src/settings/settings.types';
 
 @Catch()
 export class TwitchAuthExceptionsFilter implements ExceptionFilter {
   constructor(
     private readonly settingsService: SettingsService,
+    private readonly loggerService: LoggerService,
   ) { }
 
   catch: ExceptionFilter['catch'] = (exception, host) => {
-    const ctx = host.switchToHttp();
-    console.log(exception);
-    ctx.getResponse().redirect(this.settingsService.getFrontAppUrl() + '?failure=true');
+    const res = host.switchToHttp().getResponse();
+    if (res.statusCode !== 302) {
+      res.redirect(
+        this.settingsService.getFrontAppUrl() +
+        '?failure=true');
+    }
+    this.loggerService.error(exception);
   }
 }

@@ -1,10 +1,12 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { Prisma, User } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { UserEntity } from './user.entity';
-import { CreateUserWithOuathDto, FindOneUserDto } from './user.dto';
 import { OauthProviderWasAlreadyUsedError } from './users.errors';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
+import { FindOneUserDto } from './dto/find-user.dto';
+import { CreateUserViaOuathDto } from './dto/create-user.dto';
+import * as crypto from "crypto";
+
 
 @Injectable()
 export class UsersService {
@@ -16,6 +18,7 @@ export class UsersService {
 
   async findOne(query: FindOneUserDto): Promise<UserEntity | null> {
     const { oauthProviders, ...baseQuery } = query;
+    console.log(query);
     return this.prisma.user.findFirst({
       where: {
         ...baseQuery,
@@ -23,14 +26,14 @@ export class UsersService {
       }
     });
   }
-
+  
 
   async createWithOauth({
     accessToken,
     refreshToken,
     oauthProviderProfileId,
     type
-  }: CreateUserWithOuathDto): Promise<UserEntity> {
+  }: CreateUserViaOuathDto): Promise<UserEntity> { 
     const wasOauthProviderAlreadyUsed = Boolean(await this.OauthProvidersService.find({
       profileId: oauthProviderProfileId,
     }))
@@ -41,6 +44,7 @@ export class UsersService {
 
     return this.prisma.user.create({
       data: {
+        token: this.generateUniqueToken(),
         ouathProviders: {
           create: {
             accessToken,
@@ -51,5 +55,10 @@ export class UsersService {
         }
       }
     })
+  }
+
+
+  private generateUniqueToken() {
+    return crypto.randomBytes(64).toString('hex');
   }
 }

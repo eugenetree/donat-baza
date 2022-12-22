@@ -1,3 +1,3 @@
 export const SESSION_KEYS = {
-  userId: 'userId',
+  USER_ID: 'USER_ID',
 }

@@ -29,3 +29,9 @@ connect_nest:
 
 connect_db:
 	docker-compose --env-file .env -f ${compose_file_path} exec mysql bash
+
+db_push: 
+	docker-compose --env-file .env -f ${compose_file_path} exec nest npx prisma db push --schema=database/schema.prisma
+
+db_reset:
+	docker-compose --env-file .env -f ${compose_file_path} exec nest npx prisma migrate reset --schema=database/schema.prisma

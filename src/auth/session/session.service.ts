@@ -2,14 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { SESSION_KEYS } from "./session.constants";
 
 @Injectable()
-export class SessionHandler {
+export class SessionService {
   getUserId(session: any): number | undefined {
-    const userId = session?.[SESSION_KEYS.userId];
+    const userId = session?.[SESSION_KEYS.USER_ID];
     return typeof userId === "number" ? userId : undefined;
   }
 
   setUserId(session: any, id: number) {
-    if (session) session[SESSION_KEYS.userId] = id;
+    if (session) session[SESSION_KEYS.USER_ID] = id;
   }
 
   destoySession(session: any) {

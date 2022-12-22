@@ -1,10 +1,10 @@
 import { Module, NestModule } from '@nestjs/common';
 import * as session from 'express-session';
-import { SessionHandler } from './session.handler';
+import { SessionService } from './session.service';
 
 @Module({
-  exports: [SessionHandler],
-  providers: [SessionHandler],
+  exports: [SessionService],
+  providers: [SessionService],
 })
 export class SessionModule implements NestModule {
   configure: NestModule['configure'] = (consumer) => {
