@@ -3,22 +3,20 @@ import { PrismaService } from 'src/database/prisma.service';
 import { UserEntity } from './user.entity';
 import { OauthProviderWasAlreadyUsedError } from './users.errors';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
-import { FindOneUserDto } from './dto/find-user.dto';
-import { CreateUserViaOuathDto } from './dto/create-user.dto';
 import * as crypto from "crypto";
-
+import { CreateUserViaOuathParams } from './types/create-user.type';
+import { FindOneUserParams } from './types/find-user.type';
 
 @Injectable()
 export class UsersService {
   constructor(
     private prisma: PrismaService,
-    private readonly OauthProvidersService: OauthProvidersService,
+    private readonly oauthProvidersService: OauthProvidersService,
   ) { }
 
 
-  async findOne(query: FindOneUserDto): Promise<UserEntity | null> {
-    const { oauthProviders, ...baseQuery } = query;
-    console.log(query);
+  async findFirst(params: FindOneUserParams): Promise<UserEntity | null> {
+    const { oauthProviders, ...baseQuery } = params;
     return this.prisma.user.findFirst({
       where: {
         ...baseQuery,
@@ -33,8 +31,9 @@ export class UsersService {
     refreshToken,
     oauthProviderProfileId,
     type
-  }: CreateUserViaOuathDto): Promise<UserEntity> { 
-    const wasOauthProviderAlreadyUsed = Boolean(await this.OauthProvidersService.find({
+  }: CreateUserViaOuathParams): Promise<UserEntity> { 
+    const wasOauthProviderAlreadyUsed = 
+    Boolean(await this.oauthProvidersService.findFirst({
       profileId: oauthProviderProfileId,
     }))
 

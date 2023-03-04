@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
-import { CreateOauthProviderDto } from './dto/create-oauth-provider.dto';
-import { FindOauthProdiverDto } from './dto/find-oauth-provider.dto';
 import { OauthProviderEntity } from './oauth-provider.entity';
+import { CreateOauthProviderParams, FindOauthProdiverParams } from './oauth-providers.types';
 
 @Injectable()
 export class OauthProvidersService {
@@ -11,13 +9,13 @@ export class OauthProvidersService {
     private readonly prisma: PrismaService,
   ) { }
 
-  create = (data: CreateOauthProviderDto) => {
+  create = (data: CreateOauthProviderParams) => {
     return this.prisma.oauthProvider.create({ data });
   }
 
-  find = (query: FindOauthProdiverDto): Promise<OauthProviderEntity | null> => {
+  findFirst = (params: FindOauthProdiverParams): Promise<OauthProviderEntity | null> => {
     return this.prisma.oauthProvider.findFirst({
-      where: query,
+      where: params,
     })
   }
 }

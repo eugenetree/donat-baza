@@ -17,8 +17,8 @@ export class TwitchAuthController {
 
   @Get('init')
   async init(
-    @Res() res: Response,
     @Query() query: InitTwitchAuthDto,
+    @Res() res: Response,
   ) {
     res.redirect(this.twitchAuthService.getUrlToBeginAuth({
       successUrl: query.successUrl,
@@ -30,7 +30,7 @@ export class TwitchAuthController {
   // if user not logged in - create new account via provider
   // TODO: provide better validation for single params
   @Get('callback')
-  async redirect(
+  async callback(
     @Res() res: Response,
     @Query('code') code,
     @Query('error') twitchError,
@@ -57,3 +57,6 @@ export class TwitchAuthController {
     }
   }
 }
+
+// 
+  

@@ -8,8 +8,8 @@ import { IncorrectCallbackUrlError } from './twitch-auth.errors';
 
 @Injectable()
 export class TwitchAuthService {
-  private twitchId = this.settingsService.getTwitchVars().clientId;
-  private twitchSecret = this.settingsService.getTwitchVars().clientSecret;
+  twitchId = this.settingsService.twitchClientId;
+  twitchSecret = this.settingsService.twitchClientSecret;
 
   constructor(
     private settingsService: SettingsService,
@@ -47,19 +47,17 @@ export class TwitchAuthService {
     }
   }
 
-  
+
   public authenticate = async (code: string): Promise<UserEntity> => {
     const { accessToken, refreshToken, profile } = await this.getDataByOauthCode(code);
-    console.log(profile);
-    const user = await this.usersService.findOne({ oauthProviders: { profileId: profile.id } });
-    console.log(user);
+    const user = await this.usersService.findFirst({ oauthProviders: { profileId: profile.id } });
     if (user) return user;
 
     return this.usersService.createWithOauth({
       accessToken,
       refreshToken,
       oauthProviderProfileId: profile.id,
-      type: 'TWITCH'
+      type: 'twitch'
     })
   }
 
@@ -70,7 +68,7 @@ export class TwitchAuthService {
       accessToken,
       refreshToken,
       profileId: profile.id,
-      type: 'TWITCH',
+      type: 'twitch',
       userId,
     })
   };
@@ -108,6 +106,6 @@ export class TwitchAuthService {
 
 
   private getRedirectUrl = () => {
-    return `${this.settingsService.getBackAppUrl()}/auth/twitch/callback`;
+    return `${this.settingsService.backAppUrl}/auth/twitch/callback`;
   }
 }

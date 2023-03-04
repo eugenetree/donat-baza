@@ -1,11 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { IsJsonable } from 'src/common/class-validator/json-validation';
+import { JsonValue } from 'src/common/types';
 import { SocketService } from 'src/socket/socket.service';
 
-@Controller('donation')
-export class DonationController {
+class TestDto {
+  @IsJsonable()
+  test: JsonValue;
+}
+
+@Controller('donations')
+export class DonationsController {
   constructor(
     private readonly socketService: SocketService,
-  ) {}
+  ) { }
 
   @Get('success-payment')
   handleSuccessPayment() {

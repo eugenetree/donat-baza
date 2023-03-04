@@ -1,9 +1,9 @@
-import { BaseEntity } from "src/common/base.entity";
+import { BaseEntity } from "src/database/base.entity";
 
 export class OauthProviderEntity extends BaseEntity {
   accessToken: string;
   refreshToken: string;
   profileId: string;
-  type: "TWITCH" | "YOUTUBE";
+  type: "twitch" | "youtube";
   userId: number;
 }

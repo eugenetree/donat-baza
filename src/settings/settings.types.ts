@@ -1,16 +1,14 @@
 export abstract class SettingsService {
-  abstract getEnv: () => 'DEV' | 'PROD';
+  abstract env: 'production' | 'development';
 
-  abstract getBackAppUrl: () => string;
-  abstract getFrontAppUrl: () => string;
+  abstract backAppUrl: string;
+  abstract frontAppUrl: string;
 
-  abstract getDbVars: () => {
-    name: string;
-    password: string;
-  }
+  abstract dbName: string;
+  abstract dbPassword: string;
 
-  abstract getTwitchVars: () => {
-    clientId: string;
-    clientSecret: string;
-  }
+  abstract twitchClientId: string;
+  abstract twitchClientSecret: string;
+
+  abstract fondyMerchantId: string;
 }

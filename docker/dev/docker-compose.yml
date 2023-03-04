@@ -10,6 +10,8 @@ services:
     volumes:
       - ../../:/app
   mysql:
+    # needed only for dev purposes, to make it work for mac os  
+    platform: linux/amd64
     container_name: donat_baza_db 
     restart: always
     image: mysql:5.7
