@@ -1,20 +1,12 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SettingsService } from './settings.type';
-import { BaseSettingsService } from './settings.service';
 import { validationSchema } from './settings.schemas';
-
-const shared = [
-  {
-    provide: SettingsService,
-    useClass: BaseSettingsService,
-  }
-]
+import { SettingsService } from './settings.service';
 
 @Global()
 @Module({
   imports: [ConfigModule.forRoot({ validationSchema })],
-  providers: shared,
-  exports: shared,
+  providers: [SettingsService],
+  exports: [SettingsService],
 })
 export class SettingsModule { }

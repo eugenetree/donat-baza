@@ -2,7 +2,6 @@ import { Controller, Get, Query, Redirect, Res, ServiceUnavailableException, Ses
 import { TwitchAuthService } from "./twitch-auth.service";
 import { Response } from "express";
 import { SessionService } from "src/auth/session/session.service";
-import { SettingsService } from "src/settings/settings.type";
 import { InitTwitchAuthDto } from "./twitch-auth.dto";
 import { TwitchAuthExceptionsFilter } from "./twitch-auth.filter";
 
@@ -12,7 +11,6 @@ export class TwitchAuthController {
   constructor(
     private readonly twitchAuthService: TwitchAuthService,
     private readonly sessionService: SessionService,
-    private readonly settingsService: SettingsService,
   ) { }
 
   @Get('init')

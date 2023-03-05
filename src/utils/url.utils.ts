@@ -2,11 +2,11 @@
 // automatically stringify non-string params which we're passing
 
 import { Injectable } from "@nestjs/common";
-import { UrlUtils } from "./url.types";
+import { BuildUrlParams } from "./url.utils.type";
 
 @Injectable()
-export class UrlUtils  {
-  buildUrl: UrlUtils.BuildUrl = ({ url: originalUrl, query, path = '' }) => {
+export class UrlUtils {
+  buildUrl = ({ query, url: originalUrl }: BuildUrlParams): string => {
     let preparedQuery: string = '';
     let preparedUrl: string = '';
 

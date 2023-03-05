@@ -1,16 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UrlUtils } from './url.types';
-import { BaseUrlUtils } from './url.utils';
-
-const shared = [
-  {
-    provide: UrlUtils,
-    useClass: BaseUrlUtils,
-  },
-]
+import { UrlUtils } from './url.utils';
 
 @Module({
-  providers: shared,
-  exports: shared,
+  providers: [UrlUtils],
+  exports: [UrlUtils],
 })
 export class UtilsModule { }

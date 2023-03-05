@@ -4,7 +4,7 @@ import {
   ArgumentsHost,
 } from '@nestjs/common';
 import { LoggerService } from 'src/logger/logger.service';
-import { SettingsService } from 'src/settings/settings.type';
+import { SettingsService } from 'src/settings/settings.service';
 
 @Catch()
 export class TwitchAuthExceptionsFilter implements ExceptionFilter {
@@ -18,7 +18,7 @@ export class TwitchAuthExceptionsFilter implements ExceptionFilter {
     // TODO: check why needed 302 check
     if (res.statusCode !== 302) {
       res.redirect(
-        this.settingsService.frontAppUrl +
+        this.settingsService.getFrontAppUrl() +
         '?failure=true');
     }
     this.loggerService.error(exception);

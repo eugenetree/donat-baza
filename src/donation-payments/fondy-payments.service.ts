@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
 import * as Fondy from 'cloudipsp-node-js-sdk';
+import { SettingsService } from 'src/settings/settings.service';
+import { UrlUtils } from 'src/utils/url.utils';
 
-import { SettingsService } from 'src/settings/settings.type';
-import { UrlUtils } from 'src/utils/url.types';
 import { DonationsService } from '../donations/donations.service';
 import { GetRedirectUrlParams } from './fondy-payments.service.type';
 
@@ -32,7 +32,7 @@ export class FondyPaymentsService {
   }: GetRedirectUrlParams
   ): Promise<string> => {
     console.log('rul', this.urlUtils.buildUrl({
-      url: `${this.settingsService.backAppUrl}/${callbackUrlPath}`,
+      url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPath}`,
       query: { id }
     }));
     
@@ -43,7 +43,7 @@ export class FondyPaymentsService {
       amount,
       response_url: redirectUrl,
       server_callback_url: this.urlUtils.buildUrl({
-        url: `${this.settingsService.backAppUrl}/${callbackUrlPath}`,
+        url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPath}`,
         query: { id: this.donationsService.encryptDonationId(id) },
       }),
     }

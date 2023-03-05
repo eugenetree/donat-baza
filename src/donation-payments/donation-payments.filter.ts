@@ -3,7 +3,7 @@ import {
 	Catch,
 } from '@nestjs/common';
 import { LoggerService } from 'src/logger/logger.service';
-import { SettingsService } from 'src/settings/settings.type';
+import { SettingsService } from 'src/settings/settings.service';
 
 @Catch()
 export class DonationPaymentsExceptionFilter implements ExceptionFilter {
@@ -15,7 +15,7 @@ export class DonationPaymentsExceptionFilter implements ExceptionFilter {
 	catch: ExceptionFilter['catch'] = (exception, host) => {
 		const res = host.switchToHttp().getResponse();
 		res.redirect(
-			this.settingsService.frontAppUrl +
+			this.settingsService.getFrontAppUrl() +
 			'?failure=true');
 		this.loggerService.error(exception);
 	}

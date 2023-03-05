@@ -1,17 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SettingsService } from './settings.type';
+import { EnvVariables } from './settings.schemas';
 
 @Injectable()
-export class BaseSettingsService implements SettingsService {
+export class SettingsService {
   constructor(private configService: ConfigService) { }
 
-  public readonly env: SettingsService['env'] = this.configService.get('ENV') as 'production' | 'development';
-  public readonly backAppUrl: string = this.configService.get('BACK_APP_URL')!;
-  public readonly frontAppUrl: SettingsService['frontAppUrl'] = this.configService.get('FRONT_APP_URL')!;
-  public readonly dbName: SettingsService['dbName'] = this.configService.get('DB_NAME')!;
-  public readonly dbPassword: SettingsService['dbPassword'] = this.configService.get('DB_PASSWORD')!;
-  public readonly twitchClientId: SettingsService['twitchClientId'] = this.configService.get('TWITCH_CLIENT_ID')!;
-  public readonly twitchClientSecret: SettingsService['twitchClientSecret'] = this.configService.get('TWITCH_CLIENT_SECRET')!;
-  public readonly fondyMerchantId: SettingsService['fondyMerchantId'] = this.configService.get('FONDY_MERCHANT_ID')!;
+  getEnv = (): EnvVariables['ENV'] => {
+    return this.configService.get('ENV')!
+  };
+
+  getBackAppUrl = (): EnvVariables['BACK_APP_URL'] => {
+    return this.configService.get('BACK_APP_URL')!
+  };
+
+  getFrontAppUrl = (): EnvVariables['FRONT_APP_URL'] => {
+    return this.configService.get('FRONT_APP_URL')!
+  };
+
+  getDbName = (): EnvVariables['DB_NAME'] => {
+    return this.configService.get('DB_NAME')!
+  };
+
+  getDbPassword = (): EnvVariables['DB_PASSWORD'] => {
+    return this.configService.get('DB_PASSWORD')!
+  };
+
+  getTwitchClientId = (): EnvVariables['TWITCH_CLIENT_ID'] => {
+    return this.configService.get('TWITCH_CLIENT_ID')!
+  };
+
+  getTwitchClientSecret = (): EnvVariables['TWITCH_CLIENT_SECRET'] => {
+    return this.configService.get('TWITCH_CLIENT_SECRET')!
+  };
+
+  getFondyMerchantId = (): EnvVariables['FONDY_MERCHANT_ID'] => {
+    return this.configService.get('FONDY_MERCHANT_ID')!
+  };
 }

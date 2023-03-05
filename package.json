@@ -37,6 +37,7 @@
     "cloudipsp-node-js-sdk": "^1.0.5",
     "express-session": "^1.17.3",
     "joi": "^17.7.0",
+    "joi-extract-type": "^15.0.8",
     "node-fetch": "^2.6.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

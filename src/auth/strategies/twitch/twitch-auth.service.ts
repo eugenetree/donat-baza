@@ -1,15 +1,15 @@
 import { Injectable, Param } from '@nestjs/common';
 import axios from 'axios';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
-import { SettingsService } from 'src/settings/settings.type';
+import { SettingsService } from 'src/settings/settings.service';
 import { UserEntity } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { IncorrectCallbackUrlError } from './twitch-auth.errors';
 
 @Injectable()
 export class TwitchAuthService {
-  twitchId = this.settingsService.twitchClientId;
-  twitchSecret = this.settingsService.twitchClientSecret;
+  twitchId = this.settingsService.getTwitchClientId();
+  twitchSecret = this.settingsService.getTwitchClientSecret();
 
   constructor(
     private settingsService: SettingsService,
@@ -106,6 +106,6 @@ export class TwitchAuthService {
 
 
   private getRedirectUrl = () => {
-    return `${this.settingsService.backAppUrl}/auth/twitch/callback`;
+    return `${this.settingsService.getBackAppUrl()}/auth/twitch/callback`;
   }
 }
