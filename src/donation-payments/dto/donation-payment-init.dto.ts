@@ -1,9 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsIn, IsInt, IsString } from "class-validator";
 
 export class DonationPaymentInitDto {
-  @ApiProperty()
   @IsIn(['uah'])
   currency: 'uah';
 

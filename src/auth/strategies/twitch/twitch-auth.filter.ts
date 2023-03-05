@@ -4,7 +4,7 @@ import {
   ArgumentsHost,
 } from '@nestjs/common';
 import { LoggerService } from 'src/logger/logger.service';
-import { SettingsService } from 'src/settings/settings.types';
+import { SettingsService } from 'src/settings/settings.type';
 
 @Catch()
 export class TwitchAuthExceptionsFilter implements ExceptionFilter {

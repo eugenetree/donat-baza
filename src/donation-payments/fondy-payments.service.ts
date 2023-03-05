@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
 import * as Fondy from 'cloudipsp-node-js-sdk';
-import * as crypto from 'node:crypto';
 
-import { SettingsService } from 'src/settings/settings.types';
+import { SettingsService } from 'src/settings/settings.type';
 import { UrlUtils } from 'src/utils/url.types';
-import { DonationEntity } from '../donations/donations.entity';
 import { DonationsService } from '../donations/donations.service';
-import { DonationPaymentInitDto } from './dto/donation-payment-init.dto';
-import { FondyCallbackParams } from './types/fondy-callback.types';
-import { GetRedirectUrlParams } from './types/get-redirect-url.type';
+import { GetRedirectUrlParams } from './fondy-payments.service.type';
 
 @Injectable()
 export class FondyPaymentsService {

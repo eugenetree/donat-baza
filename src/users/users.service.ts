@@ -4,8 +4,7 @@ import { UserEntity } from './user.entity';
 import { OauthProviderWasAlreadyUsedError } from './users.errors';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
 import * as crypto from "crypto";
-import { CreateUserViaOuathParams } from './types/create-user.type';
-import { FindOneUserParams } from './types/find-user.type';
+import { CreateUserViaOuathParams, FindOneUserParams } from './users.service.type';
 
 @Injectable()
 export class UsersService {

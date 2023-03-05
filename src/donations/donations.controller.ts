@@ -1,12 +1,6 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
-import { IsJsonable } from 'src/common/class-validator/json-validation';
-import { JsonValue } from 'src/common/types';
+import { Controller, Get } from '@nestjs/common';
 import { SocketService } from 'src/socket/socket.service';
-
-class TestDto {
-  @IsJsonable()
-  test: JsonValue;
-}
+import { DonationEntity } from './donations.entity';
 
 @Controller('donations')
 export class DonationsController {
@@ -26,5 +20,7 @@ export class DonationsController {
         updatedAt: new Date(),
       }
     })
+
+    return new DonationEntity();
   }
 }

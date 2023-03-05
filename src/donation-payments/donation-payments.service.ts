@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DonationsService } from "src/donations/donations.service";
+import { ProcessPaymentInitData } from "./donation-payments.service.type";
 import { FondyPaymentsService } from "./fondy-payments.service";
-import { ProcessPaymentInitData } from "./types/process-payment-init.type";
-import * as crypto from 'node:crypto';
 
 @Injectable()
 export class DonationPaymentsService {

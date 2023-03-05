@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SettingsService } from './settings.types';
+import { SettingsService } from './settings.type';
 
 @Injectable()
 export class BaseSettingsService implements SettingsService {

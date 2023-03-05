@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import axios from 'axios';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
-import { SettingsService } from 'src/settings/settings.types';
+import { SettingsService } from 'src/settings/settings.type';
 import { UserEntity } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { IncorrectCallbackUrlError } from './twitch-auth.errors';

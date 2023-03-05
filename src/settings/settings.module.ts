@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SettingsService } from './settings.types';
+import { SettingsService } from './settings.type';
 import { BaseSettingsService } from './settings.service';
 import { validationSchema } from './settings.schemas';
 
