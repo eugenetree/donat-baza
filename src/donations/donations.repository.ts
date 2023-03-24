@@ -1,15 +1,13 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Injectable } from "@nestjs/common";
 import { BaseRepository } from "src/database/base.repository";
 import { PrismaService } from "src/database/prisma.service";
 import { DonationEntity } from "./donations.entity";
-import { produce } from "immer";
-import { BaseEntity } from "src/database/base.entity";
 
 // type DonationsRepository = BaseRepository<DonationEntity>
 
+@Injectable()
 export class DonationsRepository extends BaseRepository<DonationEntity, ['paymentData'], ['paymentStatus']> {
-  constructor() {
-    super(new PrismaClient().donation, ['paymentData'], ['paymentStatus'])
+  constructor(private readonly prisma: PrismaService) {
+    super(prisma.donation, ['paymentData'], ['paymentStatus'])
   }
 }
-
