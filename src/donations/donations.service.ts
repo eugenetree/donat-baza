@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { DonationEntity } from './donations.entity';
+import { DonationsRepository } from './donations.repository';
 import { CreateDonationParams, UpdateDonationParams } from './donations.service.type';
 
 @Injectable()
 export class DonationsService {
   constructor(
-    private prisma: PrismaService,
+    private donationsRepository: DonationsRepository,
   ) { }
 
 
   async create(data: CreateDonationParams): Promise<DonationEntity> {
-    return this.prisma.donation.create({ data });
+    return this.donationsRepository.create({ data });
   }
 
 
   async update(id: number, data: UpdateDonationParams): Promise<DonationEntity> {
-    return this.prisma.donation.update({ where: { id }, data: {} })
+    return this.donationsRepository.updateOne({id, data})
   }
 
 

@@ -1,8 +1,5 @@
-import { Prisma } from "@prisma/client";
+type JsonObject = { [Key in string]?: JsonValue }
+interface JsonArray extends Array<JsonValue> { }
 
-export type JsonObject = { [Key in string]?: JsonValue | null }
-
-interface JsonArray extends ReadonlyArray<JsonValue | null> {}
-
-// export type JsonValue = string | number | boolean | JsonObject | JsonArray
-export type JsonValue = Prisma.JsonValue;
+// null is omitted as it is better to simply store nothing (NULL) instead of stringified null
+export type JsonValue = string | number | boolean | JsonObject | JsonArray
