@@ -12,8 +12,8 @@ import { PrepareCreateInput, PrismaFieldValue, ProcessPrismaJsonFieldsReturn, } 
 
 export abstract class BaseRepository<
   Entity extends BaseEntity,
-  JsonFields extends Array<keyof Entity>,
-  FieldsWithDefaultValue extends Array<keyof Entity>
+  JsonFields extends Array<keyof Entity> = [],
+  FieldsWithDefaultValue extends Array<keyof Entity> = []
 >{
 
   constructor(

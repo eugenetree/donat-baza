@@ -4,37 +4,37 @@ import { UserEntity } from './user.entity';
 import { OauthProviderWasAlreadyUsedError } from './users.errors';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
 import * as crypto from "crypto";
-import { CreateUserViaOuathParams, FindOneUserParams } from './users.service.type';
+import { CreateUserViaOuathParams, FindOneByOauthProviderParams, FindOneUserParams } from './users.service.type';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
     private prisma: PrismaService,
+    private readonly usersRepository: UsersRepository,
     private readonly oauthProvidersService: OauthProvidersService,
   ) { }
 
 
   async findFirst(params: FindOneUserParams): Promise<UserEntity | null> {
-    const { oauthProviders, ...baseQuery } = params;
-    return this.prisma.user.findFirst({
-      where: {
-        ...baseQuery,
-        ouathProviders: { every: oauthProviders }
-      }
-    });
+    return this.usersRepository.findOne({ where: params });
   }
-  
+
+  async findOneByOauthProvider(params: FindOneByOauthProviderParams): Promise<UserEntity | null> {
+    return this.usersRepository.findOneByOauthProvider({ where: params })
+  }
+
 
   async createWithOauth({
     accessToken,
     refreshToken,
     oauthProviderProfileId,
     type
-  }: CreateUserViaOuathParams): Promise<UserEntity> { 
-    const wasOauthProviderAlreadyUsed = 
-    Boolean(await this.oauthProvidersService.findFirst({
-      profileId: oauthProviderProfileId,
-    }))
+  }: CreateUserViaOuathParams): Promise<UserEntity> {
+    const wasOauthProviderAlreadyUsed =
+      Boolean(await this.oauthProvidersService.findFirst({
+        profileId: oauthProviderProfileId,
+      }))
 
     if (wasOauthProviderAlreadyUsed) {
       throw new OauthProviderWasAlreadyUsedError();

@@ -16,6 +16,6 @@ export class CreateUserViaOuathParams extends OmitType(
   oauthProviderProfileId: OauthProviderEntity['profileId']
 }
 
-export class FindOneUserParams extends PartialType(UserEntity) {
-  oauthProviders?: FindOauthProdiverParams;
-}
+export class FindOneUserParams extends PartialType(UserEntity) { }
+
+export class FindOneByOauthProviderParams extends PartialType(OauthProviderEntity) {}

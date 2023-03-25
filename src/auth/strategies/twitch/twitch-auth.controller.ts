@@ -39,16 +39,16 @@ export class TwitchAuthController {
     try {
       if (twitchError) throw new ServiceUnavailableException(twitchError);
       const userId = this.sessionService.getUserId(session);
+
       if (userId) await this.twitchAuthService.linkProviderToAccount({ code, userId: Number(userId) });
       else {
         const user = await this.twitchAuthService.authenticate(code);
-        console.log(user);
         this.sessionService.setUserId(session, user.id);
       }
+
       res.redirect(successUrl);
     } catch (err) {
       if (failUrl) res.redirect(failUrl);
-      console.log('redirection from controller');
       throw err;
       // TODO: make better service errors handling 
       //  (OauthProviderWasAlreadyUsedError, IncorrectCallbackUrlError)
@@ -57,4 +57,3 @@ export class TwitchAuthController {
 }
 
 // 
-  
