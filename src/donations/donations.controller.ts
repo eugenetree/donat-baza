@@ -25,9 +25,4 @@ export class DonationsController {
 
     return new DonationEntity();
   }
-
-  @Get('t')
-  t() {
-    this.donationsService.create({ amount: 1, currency: 'UAH', message: 'xxx', paymentSystem: 'fondy', recipientId: 1, senderName: 'me' })
-  }
 }

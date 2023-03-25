@@ -20,9 +20,9 @@ export class FondyPaymentsService {
     secretKey: 'test'
   })
 
-  getRedirectUrl = async ({
-    redirectUrl,
-    callbackUrlPath,
+  async getRedirectUrl({
+    redirectUrlAfterPayment,
+    callbackUrlPathAfterPayment,
     donation: {
       id,
       amount,
@@ -30,20 +30,22 @@ export class FondyPaymentsService {
       message,
     },
   }: GetRedirectUrlParams
-  ): Promise<string> => {
-    console.log('rul', this.urlUtils.buildUrl({
-      url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPath}`,
-      query: { id }
+  ): Promise<string> {
+    console.log('responseUrl', redirectUrlAfterPayment),
+    console.log('callbackURL', this.urlUtils.buildUrl({
+      url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPathAfterPayment}`,
+      query: { id: this.donationsService.encryptDonationId(id) },
     }));
-    
+
     const requestData = {
-      order_id: id,
+      order_id: id + +new Date(),
       order_desc: message,
       currency,
       amount,
-      response_url: redirectUrl,
+      response_url: redirectUrlAfterPayment,
+      // response_url: redirectUrlAfterPayment,
       server_callback_url: this.urlUtils.buildUrl({
-        url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPath}`,
+        url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPathAfterPayment}`,
         query: { id: this.donationsService.encryptDonationId(id) },
       }),
     }

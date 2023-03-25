@@ -18,4 +18,4 @@ export class CreateUserViaOuathParams extends OmitType(
 
 export class FindOneUserParams extends PartialType(UserEntity) { }
 
-export class FindOneByOauthProviderParams extends PartialType(OauthProviderEntity) {}
+export class FindOneByOauthProviderParams extends PartialType(OauthProviderEntity) { }

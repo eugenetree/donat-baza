@@ -5,6 +5,6 @@ export class FondyCallbackParams extends FondyCallbackBodyDto {};
 
 export class GetRedirectUrlParams {
   donation: DonationEntity;
-  redirectUrl: string;
-  callbackUrlPath: string;
+  redirectUrlAfterPayment: string;
+  callbackUrlPathAfterPayment: string;
 }

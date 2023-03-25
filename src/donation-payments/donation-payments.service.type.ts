@@ -1,5 +1,8 @@
-import { DonationPaymentInitDto } from "./dto/donation-payment-init.dto";
+import { PrepareCreateInput } from "src/database/base.repository.type";
+import { DonationEntity } from "src/donations/donations.entity";
 
-export class ProcessPaymentInitData extends DonationPaymentInitDto {
-  callbackUrlPath: string;
+export class CreateRedirectUrlParams {
+  donationInput: PrepareCreateInput<DonationEntity, ['paymentStatus']>;
+  redirectUrlAfterPayment: string;
+  callbackUrlPathAfterPayment: string;
 }

@@ -15,10 +15,13 @@ export class DonationPaymentsController implements DonationPaymentsController {
     @Query() dto: DonationPaymentInitDto,
     @Res() res: Response,
   ) {
+    const { redirectUrlAfterPayment, ...donationInput } = dto;
+
     res.redirect(
-      await this.donationPaymentsService.createRedirectUrl({
-        ...dto,
-        callbackUrlPath: 'donation-payments/fondy-callback',
+      await this.donationPaymentsService.createRedirectUrlToPaymentPage({
+        donationInput,
+        redirectUrlAfterPayment,
+        callbackUrlPathAfterPayment: 'donation-payments/fondy-callback',
       })
     );
   }

@@ -19,7 +19,7 @@ export class DonationPaymentInitDto {
   paymentSystem: 'fondy';
 
   @IsString()
-  redirectUrl: string;
+  redirectUrlAfterPayment: string;
 
   @IsInt()
   @Type(() => Number)

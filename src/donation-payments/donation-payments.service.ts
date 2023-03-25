@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DonationsService } from "src/donations/donations.service";
-import { ProcessPaymentInitData } from "./donation-payments.service.type";
+import { CreateRedirectUrlParams } from "./donation-payments.service.type";
 import { FondyPaymentsService } from "./fondy-payments.service";
 
 @Injectable()
@@ -11,28 +11,22 @@ export class DonationPaymentsService {
   ) { }
 
 
-  createRedirectUrl = async (data: ProcessPaymentInitData): Promise<string> => {
-    const entity = await this.donationsService.create(data);
+  async createRedirectUrlToPaymentPage({
+    donationInput,
+    redirectUrlAfterPayment,
+    callbackUrlPathAfterPayment
+  }: CreateRedirectUrlParams): Promise<string> {
+    const createdDonation = await this.donationsService.create(donationInput);
 
     let redirectUrl: string = '';
-    if (data.paymentSystem === 'fondy') {
+    if (createdDonation.paymentSystem === 'fondy') {
       redirectUrl = await this.fondyPaymentsService.getRedirectUrl({
-        donation: entity,
-        redirectUrl: data.redirectUrl,
-        callbackUrlPath: data.callbackUrlPath,
+        donation: createdDonation,
+        redirectUrlAfterPayment,
+        callbackUrlPathAfterPayment,
       });
     }
 
     return redirectUrl;
-  }
-
-
-  encryptRecipientId = (id: number) => {
-    return 
-  }
-
-
-  decryptRecipientId = (value: string) => {
-
   }
 }
