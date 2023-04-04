@@ -18,10 +18,13 @@ export class TwitchAuthController {
     @Query() query: InitTwitchAuthDto,
     @Res() res: Response,
   ) {
-    res.redirect(this.twitchAuthService.getUrlToBeginAuth({
+    const redirectUrl = this.twitchAuthService.getUrlToBeginAuth({
       successUrl: query.successUrl,
       failUrl: query.failUrl,
-    }));
+    })
+
+    console.log('TwitchAuthController | init user auth, redirecting to: ', redirectUrl);
+    res.redirect(redirectUrl);
   }
 
   // if user already logged in - link provider to account

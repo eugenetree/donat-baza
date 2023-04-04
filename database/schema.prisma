@@ -4,8 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "linux-arm64-openssl-1.1.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-1.1.x"]
 }
 
 //
@@ -64,13 +64,14 @@ model Donation {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  currency      String
-  amount        Int
-  senderName    String
-  message       String
-  paymentSystem PaymentSystem
-  paymentStatus PaymentStatus @default(idle)
-  paymentData   Json?
+  currency              String
+  amount                Int
+  senderName            String
+  message               String
+  paymentSystem         PaymentSystem
+  paymentStatus         PaymentStatus @default(idle)
+  paymentData           Json?
+  notificationWasPlayed Boolean       @default(false)
 
   recipient   User @relation(fields: [recipientId], references: [id])
   recipientId Int

@@ -16,7 +16,7 @@ export class TwitchAuthRepository {
       code,
       // redirectUrl is needed only to match oauth2 requirements,
       // when request is going through axios - there is no redirect
-      redirect_uri: 'http://localhost',
+      redirect_uri: 'http://localhost:3000',
       grant_type: 'authorization_code',
     })
 

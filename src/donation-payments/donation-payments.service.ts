@@ -17,6 +17,7 @@ export class DonationPaymentsService {
     redirectUrlAfterPayment,
   }: CreateRedirectUrlToPaymentPageParams): Promise<string> {
     const createdDonation = await this.donationsService.create(donationInput);
+    console.log('DonationPaymentsService | donation record was created', createdDonation);
 
     let redirectUrl: string = '';
     if (createdDonation.paymentSystem === 'fondy') {

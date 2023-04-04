@@ -9,5 +9,9 @@ export class DonationEntity extends BaseEntity {
   paymentSystem: 'fondy' | 'manual';
   paymentStatus: 'idle' | 'progress' | 'success' | 'fail';
   paymentData: JsonValue | null;
+  notificationWasPlayed: boolean;
   recipientId: number;
 }
+
+export const DonationEntityFieldsWithDefaultValue:
+  ['paymentStatus', 'notificationWasPlayed'] = ['paymentStatus', 'notificationWasPlayed'];

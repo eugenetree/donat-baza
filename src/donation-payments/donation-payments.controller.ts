@@ -17,13 +17,13 @@ export class DonationPaymentsController implements DonationPaymentsController {
     @Res() res: Response,
   ) {
     const { redirectUrlAfterPayment, ...donationInput } = dto;
+    const redirectUrl = await this.donationPaymentsService.createRedirectUrlToPaymentPage({
+      donationInput,
+      redirectUrlAfterPayment,
+    })
 
-    res.redirect(
-      await this.donationPaymentsService.createRedirectUrlToPaymentPage({
-        donationInput,
-        redirectUrlAfterPayment,
-      })
-    );
+    console.log('DonationPaymentsController | init donation, redirecting to payment page: ', redirectUrl);
+    res.redirect(redirectUrl);
   }
 
   @Post(PAYMENT_SYSTEMS_CALLBACK_URL_PATHS[PAYMENT_SYSTEMS.FONDY])

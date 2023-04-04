@@ -50,16 +50,21 @@ export class TwitchAuthService {
 
 
   public authenticate = async (code: string): Promise<UserEntity> => {
+    console.log('TwitchAuthService | requesting user tokens and data by code: ', code);
     const { accessToken, refreshToken, profile } = await this.twitchAuthRepository.getDataByOauthCode(code);
+    
     const user = await this.usersService.findOneByOauthProvider({ profileId: profile.id });
+    console.log('TwitchAuthService | user was found', user);
     if (user) return user;
 
-    return this.usersService.createWithOauth({
+    const createdUser = await this.usersService.createWithOauth({
       accessToken,
       refreshToken,
       oauthProviderProfileId: profile.id,
       type: 'twitch'
     })
+    console.log('TwitchAuthService | new user was created', createdUser);
+    return createdUser;
   }
 
 
@@ -75,6 +80,7 @@ export class TwitchAuthService {
   };
 
   private getRedirectUrl = () => {
-    return `${this.settingsService.getBackAppUrl()}/auth/twitch/callback`;
+    const host = this.settingsService.getEnv() === 'development' ? 'http://localhost:3000' : this.settingsService.getBackAppUrl()
+    return `${host}/auth/twitch/callback`;
   }
 }

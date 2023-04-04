@@ -31,12 +31,6 @@ export class FondyPaymentsService {
     },
   }: GetRedirectUrlParams
   ): Promise<string> {
-    console.log('responseUrl', redirectUrlAfterPayment),
-    console.log('callbackURL', this.urlUtils.buildUrl({
-      url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPathAfterPayment}`,
-      query: { id: this.donationsService.encryptDonationId(id) },
-    }));
-
     const requestData = {
       order_id: id + +new Date(),
       order_desc: message,

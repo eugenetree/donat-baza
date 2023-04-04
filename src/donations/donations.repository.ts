@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { BaseRepository } from "src/database/base.repository";
 import { PrismaService } from "src/database/prisma.service";
-import { DonationEntity } from "./donations.entity";
+import { DonationEntity, DonationEntityFieldsWithDefaultValue } from "./donations.entity";
 
 @Injectable()
-export class DonationsRepository extends BaseRepository<DonationEntity, ['paymentData'], ['paymentStatus']> {
+export class DonationsRepository extends BaseRepository<DonationEntity, ['paymentData'], typeof DonationEntityFieldsWithDefaultValue> {
   constructor(private prisma: PrismaService) {
-    super(prisma.donation, ['paymentData'], ['paymentStatus'])
+    super(prisma.donation, ['paymentData'], DonationEntityFieldsWithDefaultValue)
   }
 }
