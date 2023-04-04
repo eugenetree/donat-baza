@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DonationsService } from "src/donations/donations.service";
-import { CreateRedirectUrlParams } from "./donation-payments.service.type";
+import { PAYMENT_SYSTEMS, PAYMENT_SYSTEMS_CALLBACK_URL_PATHS } from "./donation-payments.constants";
+import { CreateRedirectUrlToPaymentPageParams, UpdateDonationAfterPaymentSuccessParams } from "./donation-payments.service.type";
 import { FondyPaymentsService } from "./fondy-payments.service";
 
 @Injectable()
@@ -14,8 +15,7 @@ export class DonationPaymentsService {
   async createRedirectUrlToPaymentPage({
     donationInput,
     redirectUrlAfterPayment,
-    callbackUrlPathAfterPayment
-  }: CreateRedirectUrlParams): Promise<string> {
+  }: CreateRedirectUrlToPaymentPageParams): Promise<string> {
     const createdDonation = await this.donationsService.create(donationInput);
 
     let redirectUrl: string = '';
@@ -23,10 +23,19 @@ export class DonationPaymentsService {
       redirectUrl = await this.fondyPaymentsService.getRedirectUrl({
         donation: createdDonation,
         redirectUrlAfterPayment,
-        callbackUrlPathAfterPayment,
+        callbackUrlPathAfterPayment:
+          `donation-payments/${PAYMENT_SYSTEMS_CALLBACK_URL_PATHS[PAYMENT_SYSTEMS.FONDY]}`,
       });
     }
 
     return redirectUrl;
+  }
+
+  async handleSuccessDonationPayment({
+    id,
+    paymentData
+  }: UpdateDonationAfterPaymentSuccessParams) {
+    this.donationsService.update(+id, { paymentData, paymentStatus: 'success' })
+    console.log('notification started');
   }
 }

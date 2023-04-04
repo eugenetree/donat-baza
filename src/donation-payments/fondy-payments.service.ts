@@ -43,7 +43,6 @@ export class FondyPaymentsService {
       currency,
       amount,
       response_url: redirectUrlAfterPayment,
-      // response_url: redirectUrlAfterPayment,
       server_callback_url: this.urlUtils.buildUrl({
         url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPathAfterPayment}`,
         query: { id: this.donationsService.encryptDonationId(id) },

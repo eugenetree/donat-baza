@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpCode, Post, Query, Res } from '@nestjs/common';
-import { Response } from 'express';
+import {  Response } from 'express';
 import { DonationPaymentsService } from './donation-payments.service';
-import { FondyCallbackBodyDto, FondyCallbackQueryDto } from './dto/fondy-callback.dto';
+import { FondyCallbackQueryDto } from './dto/fondy-callback.dto';
 import { DonationPaymentInitDto } from './dto/donation-payment-init.dto';
+import { PAYMENT_SYSTEMS, PAYMENT_SYSTEMS_CALLBACK_URL_PATHS } from './donation-payments.constants';
 
 @Controller('donation-payments')
 export class DonationPaymentsController implements DonationPaymentsController {
@@ -21,18 +22,20 @@ export class DonationPaymentsController implements DonationPaymentsController {
       await this.donationPaymentsService.createRedirectUrlToPaymentPage({
         donationInput,
         redirectUrlAfterPayment,
-        callbackUrlPathAfterPayment: 'donation-payments/fondy-callback',
       })
     );
   }
 
-  @Post('fondy-callback')
+  @Post(PAYMENT_SYSTEMS_CALLBACK_URL_PATHS[PAYMENT_SYSTEMS.FONDY])
   // 200 code is needed because of 'fondy' requirements
   @HttpCode(200)
   handleFondyCallback(
-    @Body() data: FondyCallbackBodyDto,
+    @Body() data, // TODO: add pipe for check data is valid JSON
     @Query() { id }: FondyCallbackQueryDto,
   ) {
-    console.log(data, id);
+    this.donationPaymentsService.handleSuccessDonationPayment({
+      id,
+      paymentData: data
+    })
   }
 }
