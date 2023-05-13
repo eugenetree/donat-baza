@@ -32,6 +32,7 @@ export class FondyPaymentsService {
   }: GetRedirectUrlParams
   ): Promise<string> {
     const requestData = {
+      // TODO: move to unique value generator
       order_id: id + +new Date(),
       order_desc: message,
       currency,

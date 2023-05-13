@@ -3,14 +3,19 @@ import { DonationsService } from "src/donations/donations.service";
 import { PAYMENT_SYSTEMS, PAYMENT_SYSTEMS_CALLBACK_URL_PATHS } from "./donation-payments.constants";
 import { CreateRedirectUrlToPaymentPageParams, UpdateDonationAfterPaymentSuccessParams } from "./donation-payments.service.type";
 import { FondyPaymentsService } from "./fondy-payments.service";
+import { UrlUtils } from "src/utils/url.utils";
+import { UsersService } from "src/users/users.service";
+import { SocketService } from 'src/socket/socket.service';
 
 @Injectable()
 export class DonationPaymentsService {
   constructor(
     private readonly donationsService: DonationsService,
     private readonly fondyPaymentsService: FondyPaymentsService,
+    private readonly usersService: UsersService,
+    private readonly socketService: SocketService,
+    private readonly urlUtils: UrlUtils,
   ) { }
-
 
   async createRedirectUrlToPaymentPage({
     donationInput,
@@ -23,7 +28,10 @@ export class DonationPaymentsService {
     if (createdDonation.paymentSystem === 'fondy') {
       redirectUrl = await this.fondyPaymentsService.getRedirectUrl({
         donation: createdDonation,
-        redirectUrlAfterPayment,
+        redirectUrlAfterPayment: this.getRedirectUrlWithEncodedDonationId({
+          redirectUrl: redirectUrlAfterPayment,
+          donationId: createdDonation.id
+        }),
         callbackUrlPathAfterPayment:
           `donation-payments/${PAYMENT_SYSTEMS_CALLBACK_URL_PATHS[PAYMENT_SYSTEMS.FONDY]}`,
       });
@@ -36,7 +44,18 @@ export class DonationPaymentsService {
     id,
     paymentData
   }: UpdateDonationAfterPaymentSuccessParams) {
-    this.donationsService.update(+id, { paymentData, paymentStatus: 'success' })
-    console.log('notification started');
+    console.log('handling success donation');
+    const donation = await this.donationsService.update(id, { paymentData, paymentStatus: 'success' });
+    const recipient = await this.usersService.findFirst({ id: donation.recipientId });
+    console.log(donation, recipient);
+    // @ts-ignore
+    this.socketService.emitDonationEvent({ token: recipient?.token, donation })
+  }
+
+  private getRedirectUrlWithEncodedDonationId({ redirectUrl, donationId }: { redirectUrl: string, donationId: number }) {
+    return this.urlUtils.buildUrl({
+      url: redirectUrl,
+      query: { id: this.donationsService.encryptDonationId(donationId) }
+    })
   }
 }

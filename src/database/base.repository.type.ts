@@ -4,7 +4,8 @@ import { BaseEntity } from "./base.entity";
 export type NullableKeys<T> = Exclude<{ [Key in keyof T]: null extends T[Key] ? Key : never }[keyof T], undefined>
 
 // - turn fields containing "null" to optional
-// - turn fields that has default value in schema.prisma to optional
+// - turn fields that has default value in schema.prisma to optional'
+// - turn fields BaseEntity fields to optional (as they are generating by prisma itself)
 export type PrepareCreateInput<Entity, FieldsWithDefaultValue extends Array<keyof Entity> = []> =
   Omit<Entity, NullableKeys<Entity> | keyof BaseEntity | FieldsWithDefaultValue[number]>
   & { [Key in keyof Pick<Entity, NullableKeys<Entity> | FieldsWithDefaultValue[number]>]?: Entity[Key] }

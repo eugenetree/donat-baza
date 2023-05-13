@@ -9,6 +9,6 @@ export class CreateRedirectUrlToPaymentPageParams {
 }
 
 export class UpdateDonationAfterPaymentSuccessParams {
-  id: string;
+  id: number;
   paymentData: UpdateDonationParams['paymentData'];
 }

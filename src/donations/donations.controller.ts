@@ -10,19 +10,8 @@ export class DonationsController {
     private readonly donationsService: DonationsService,
   ) { }
 
-  @Get('success-payment')
-  handleSuccessPayment() {
-    this.socketService.emitDonationEvent({
-      token: 'test-token',
-      donation: {
-        id: 123,
-        amount: 300,
-        sender: 'test-sender',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
-    })
-
-    return new DonationEntity();
+  @Get('test')
+  test() {
+    this.donationsService.encryptDonationId(1);
   }
 }

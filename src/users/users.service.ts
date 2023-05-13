@@ -3,9 +3,9 @@ import { PrismaService } from 'src/database/prisma.service';
 import { UserEntity } from './user.entity';
 import { OauthProviderWasAlreadyUsedError } from './users.errors';
 import { OauthProvidersService } from 'src/oauth-providers/oauth-providers.service';
-import * as crypto from "crypto";
 import { CreateUserViaOuathParams, FindOneByOauthProviderParams, FindOneUserParams } from './users.service.type';
 import { UsersRepository } from './users.repository';
+import * as crypto from "crypto";
 
 @Injectable()
 export class UsersService {
@@ -57,6 +57,6 @@ export class UsersService {
 
 
   private generateUniqueToken() {
-    return crypto.randomBytes(64).toString('hex');
+    return crypto.randomUUID();
   }
 }
