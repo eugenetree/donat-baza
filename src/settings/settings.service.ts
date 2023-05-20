@@ -72,4 +72,12 @@ export class SettingsService {
   getFondyMerchantId = (): EnvVariables['FONDY_MERCHANT_ID'] => {
     return this.configService.get('FONDY_MERCHANT_ID')!
   };
+
+  getDonationCipherPassphrase = (): EnvVariables['DONATION_CIPHER_PASSPHRASE'] => {
+    return this.configService.get('DONATION_CIPHER_PASSPHRASE')!
+  }
+
+  getDonationCipherIv = (): EnvVariables['DONATION_CIPHER_IV'] => {
+    return this.configService.get('DONATION_CIPHER_IV')!
+  }
 }

@@ -14,6 +14,9 @@ export const validationSchema =  Joi.object({
   TWITCH_CLIENT_SECRET: Joi.string().required(),
   
   FONDY_MERCHANT_ID: Joi.string().required(),
+
+  DONATION_CIPHER_PASSPHRASE: Joi.string().required(),
+  DONATION_CIPHER_IV: Joi.string().required(),
 })
 
 export type EnvVariables = Joi.extractType<typeof validationSchema>;
