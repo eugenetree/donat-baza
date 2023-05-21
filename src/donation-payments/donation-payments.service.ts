@@ -6,11 +6,13 @@ import { FondyPaymentsService } from "./fondy-payments.service";
 import { UrlUtils } from "src/utils/url.utils";
 import { UsersService } from "src/users/users.service";
 import { SocketService } from 'src/socket/socket.service';
+import { DonationsCipherService } from "src/donations/donations-cipher.service";
 
 @Injectable()
 export class DonationPaymentsService {
   constructor(
     private readonly donationsService: DonationsService,
+    private readonly donationCipherService: DonationsCipherService,
     private readonly fondyPaymentsService: FondyPaymentsService,
     private readonly usersService: UsersService,
     private readonly socketService: SocketService,
@@ -44,10 +46,9 @@ export class DonationPaymentsService {
     id,
     paymentData
   }: UpdateDonationAfterPaymentSuccessParams) {
-    console.log('handling success donation');
+    console.log(`DonationPaymentsService | handling success donation payment`, {id, paymentData});
     const donation = await this.donationsService.update(id, { paymentData, paymentStatus: 'success' });
     const recipient = await this.usersService.findFirst({ id: donation.recipientId });
-    console.log(donation, recipient);
     // @ts-ignore
     this.socketService.emitDonationEvent({ token: recipient?.token, donation })
   }
@@ -55,7 +56,7 @@ export class DonationPaymentsService {
   private getRedirectUrlWithEncodedDonationId({ redirectUrl, donationId }: { redirectUrl: string, donationId: number }) {
     return this.urlUtils.buildUrl({
       url: redirectUrl,
-      query: { id: this.donationsService.encryptDonationId(donationId) }
+      query: { id: this.donationCipherService.encryptDonationId(donationId) }
     })
   }
 }

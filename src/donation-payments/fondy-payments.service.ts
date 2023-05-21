@@ -40,16 +40,11 @@ export class FondyPaymentsService {
       response_url: redirectUrlAfterPayment,
       server_callback_url: this.urlUtils.buildUrl({
         url: `${this.settingsService.getBackAppUrl()}/${callbackUrlPathAfterPayment}`,
-        query: { id: this.donationsService.encryptDonationId(id) },
+        query: { id },
       }),
     }
 
     const res = await this.fondyClient.Checkout(requestData);
     return res.checkout_url;
-  }
-
-
-  processPaymentCallback = async () => {
-
   }
 }

@@ -12,6 +12,5 @@ export class DonationsController {
 
   @Get('test')
   test() {
-    this.donationsService.encryptDonationId(1);
   }
 }
